@@ -18,7 +18,7 @@ window.onload = function() {
     // 游戏配置
     const gridSize = 20; // 网格大小
     const tileCount = canvas.width / gridSize; // 网格数量
-    let speed = 6; // 游戏速度
+    let speed = 4; // 游戏速度
 
     // 游戏状态
     let gameRunning = false;
@@ -152,6 +152,7 @@ window.onload = function() {
 
         // 检查碰撞
         if (checkCollision()) {
+            console.log("游戏结束：检测到碰撞");
             gameOver = true;
             gameRunning = false;
             clearInterval(gameInterval);
@@ -227,12 +228,18 @@ window.onload = function() {
                     ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
                 }
             } else {
-                // 蛇身体部分
-                ctx.fillStyle = '#00ff00';
-                // 渐变色效果
-                let alpha = 1 - (i / snake.length) * 0.6;
-                ctx.fillStyle = `rgba(0, 255, 0, ${alpha})`;
-                ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
+                // 蛇身体部分使用榴莲图标（缩小一点以区分蛇头）
+                if (durianImage.complete) {
+                    // 绘制榴莲图标作为蛇身
+                    ctx.drawImage(durianImage, snake[i].x * gridSize + 2, snake[i].y * gridSize + 2, gridSize - 6, gridSize - 6);
+                } else {
+                    // 如果图像未加载完成，使用备用颜色
+                    ctx.fillStyle = '#00ff00';
+                    // 渐变色效果
+                    let alpha = 1 - (i / snake.length) * 0.6;
+                    ctx.fillStyle = `rgba(0, 255, 0, ${alpha})`;
+                    ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
+                }
             }
         }
 
@@ -275,8 +282,12 @@ window.onload = function() {
         // 不再检查边界碰撞，因为蛇可以穿越边界
         
         // 只检查是否撞到自己（从第二个身体部分开始检查）
+        const headX = snake[0].x;
+        const headY = snake[0].y;
+        
         for (let i = 1; i < snake.length; i++) {
-            if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+            if (snake[i].x === headX && snake[i].y === headY) {
+                console.log("碰撞检测：蛇头碰到蛇身", headX, headY, i);
                 return true;
             }
         }
