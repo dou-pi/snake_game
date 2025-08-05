@@ -13,7 +13,10 @@ window.onload = function() {
     durianImage.src = 'images/durian.svg';
     
     const mouthImage = new Image();
-    mouthImage.src = 'images/mouth.svg';
+    mouthImage.src = 'images/mouth02.svg';
+
+    const bodyImage = new Image();
+    bodyImage.src = 'images/body01.svg';
 
     // 游戏配置
     const gridSize = 20; // 网格大小
@@ -229,9 +232,9 @@ window.onload = function() {
                 }
             } else {
                 // 蛇身体部分使用榴莲图标（缩小一点以区分蛇头）
-                if (durianImage.complete) {
+                if (bodyImage.complete) {
                     // 绘制榴莲图标作为蛇身
-                    ctx.drawImage(durianImage, snake[i].x * gridSize + 2, snake[i].y * gridSize + 2, gridSize - 6, gridSize - 6);
+                    ctx.drawImage(bodyImage, snake[i].x * gridSize + 2, snake[i].y * gridSize + 2, gridSize - 6, gridSize - 6);
                 } else {
                     // 如果图像未加载完成，使用备用颜色
                     ctx.fillStyle = '#00ff00';
