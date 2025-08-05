@@ -9,14 +9,17 @@ window.onload = function() {
     const restartBtn = document.getElementById('restart-btn');
     
     // 加载图像
-    const durianImage = new Image();
-    durianImage.src = 'images/durian.svg';
+    const foodImage = new Image();
+    foodImage.src = 'images/food.png';
     
     const mouthImage = new Image();
-    mouthImage.src = 'images/mouth02.svg';
+    mouthImage.src = 'images/head02.png';
 
     const bodyImage = new Image();
-    bodyImage.src = 'images/body01.svg';
+    bodyImage.src = 'images/food.png';
+
+    const footImage = new Image();
+    footImage.src = 'images/foot.png';
 
     // 游戏配置
     const gridSize = 20; // 网格大小
@@ -58,8 +61,8 @@ window.onload = function() {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         // 绘制食物（榴莲图标）
-        if (durianImage.complete) {
-            ctx.drawImage(durianImage, foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
+        if (foodImage.complete) {
+            ctx.drawImage(foodImage, foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
         } else {
             // 如果图像未加载完成，使用备用颜色
             ctx.fillStyle = '#8B7500';
@@ -143,112 +146,176 @@ window.onload = function() {
         }
     }
 
-    // 绘制游戏
-    function drawGame() {
-        if (gameOver) {
-            displayGameOver();
-            return;
-        }
-
-        // 移动蛇
-        moveSnake();
-
-        // 检查碰撞
-        if (checkCollision()) {
-            console.log("游戏结束：检测到碰撞");
-            gameOver = true;
-            gameRunning = false;
-            clearInterval(gameInterval);
-            startBtn.textContent = '开始游戏';
-            pauseBtn.disabled = true;
-            displayGameOver();
-            return;
-        }
-
-        // 清空画布
-        ctx.fillStyle = '#222';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // 检查是否吃到食物
-        if (snake[0].x === foodX && snake[0].y === foodY) {
-            // 增加分数
-            score += 10;
-            scoreElement.textContent = score;
-            
-            // 不移除蛇尾，让蛇变长
-            // 放置新的食物
-            placeFood();
-            
-            // 每得100分增加速度
-            if (score % 100 === 0) {
-                speed += 1;
-                clearInterval(gameInterval);
-                gameInterval = setInterval(drawGame, 1000 / speed);
-            }
-        } else {
-            // 移除蛇尾
-            snake.pop();
-        }
-
-        // 绘制食物（榴莲图标）
-        if (durianImage.complete) {
-            ctx.drawImage(durianImage, foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
-        } else {
-            // 如果图像未加载完成，使用备用颜色
-            ctx.fillStyle = '#8B7500';
-            ctx.fillRect(foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
-        }
-
-        // 绘制蛇
-        for (let i = 0; i < snake.length; i++) {
-            if (i === 0) {
-                // 绘制蛇头（嘴巴图标）
-                if (mouthImage.complete) {
-                    // 保存当前状态
-                    ctx.save();
-                    // 移动到蛇头位置
-                    ctx.translate(snake[i].x * gridSize + (gridSize-2)/2, snake[i].y * gridSize + (gridSize-2)/2);
-                    
-                    // 根据移动方向旋转嘴巴
-                    if (velocityX === 1) { // 向右
-                        // 默认方向，不需要旋转
-                    } else if (velocityX === -1) { // 向左
-                        ctx.rotate(Math.PI); // 旋转180度
-                    } else if (velocityY === -1) { // 向上
-                        ctx.rotate(-Math.PI/2); // 旋转-90度
-                    } else if (velocityY === 1) { // 向下
-                        ctx.rotate(Math.PI/2); // 旋转90度
-                    }
-                    
-                    // 绘制嘴巴图标
-                    ctx.drawImage(mouthImage, -(gridSize-2)/2, -(gridSize-2)/2, gridSize-2, gridSize-2);
-                    
-                    // 恢复状态
-                    ctx.restore();
-                } else {
-                    // 如果图像未加载完成，使用备用颜色
-                    ctx.fillStyle = '#FF9999';
-                    ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
-                }
-            } else {
-                // 蛇身体部分使用榴莲图标（缩小一点以区分蛇头）
-                if (bodyImage.complete) {
-                    // 绘制榴莲图标作为蛇身
-                    ctx.drawImage(bodyImage, snake[i].x * gridSize + 2, snake[i].y * gridSize + 2, gridSize - 6, gridSize - 6);
-                } else {
-                    // 如果图像未加载完成，使用备用颜色
-                    ctx.fillStyle = '#00ff00';
-                    // 渐变色效果
-                    let alpha = 1 - (i / snake.length) * 0.6;
-                    ctx.fillStyle = `rgba(0, 255, 0, ${alpha})`;
-                    ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
-                }
-            }
-        }
-
-        // 绘制网格线（可选）
-        drawGrid();
+  function drawGame() {
+    if (gameOver) {
+        displayGameOver();
+        return;
     }
+ 
+    // 移动蛇 
+    moveSnake();
+ 
+    // 检查碰撞
+    if (checkCollision()) {
+        console.log(" 游戏结束：检测到碰撞");
+        gameOver = true;
+        gameRunning = false;
+        clearInterval(gameInterval);
+        startBtn.textContent  = '开始游戏';
+        pauseBtn.disabled  = true;
+        displayGameOver();
+        return;
+    }
+ 
+    // 清空画布 
+    ctx.fillStyle  = '#222';
+    ctx.fillRect(0,  0, canvas.width,  canvas.height); 
+ 
+    // 检查是否吃到食物 
+    if (snake[0].x === foodX && snake[0].y === foodY) {
+        // 增加分数 
+        score += 10;
+        scoreElement.textContent  = score;
+        
+        // 不移除蛇尾，让蛇变长 
+        // 放置新的食物
+        placeFood();
+        
+        // 每得100分增加速度 
+        if (score % 100 === 0) {
+            speed += 1;
+            clearInterval(gameInterval);
+            gameInterval = setInterval(drawGame, 1000 / speed);
+        }
+    } else {
+        // 移除蛇尾
+        snake.pop(); 
+    }
+ 
+    // 绘制食物
+    if (foodImage.complete)  {
+        ctx.drawImage(foodImage,  foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
+    } else {
+        // 如果图像未加载完成，使用备用颜色
+        ctx.fillStyle  = '#8B7500';
+        ctx.fillRect(foodX  * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
+    }
+ 
+        // 绘制蛇 
+    for (let i = 0; i < snake.length;  i++) {
+        const segment = snake[i];
+        
+        if (i === 0) {
+            // 绘制蛇头（嘴巴图标）
+            if (mouthImage.complete)  {
+                ctx.save(); 
+                ctx.translate(segment.x  * gridSize + (gridSize-2)/2, segment.y * gridSize + (gridSize-2)/2);
+                
+                // 根据移动方向旋转嘴巴 
+                if (velocityX === 1) { // 向右 
+                    // 默认方向，不需要旋转
+                } else if (velocityX === -1) { // 向左
+                    ctx.rotate(Math.PI); 
+                } else if (velocityY === -1) { // 向上
+                    ctx.rotate(-Math.PI/2); 
+                } else if (velocityY === 1) { // 向下 
+                    ctx.rotate(Math.PI/2); 
+                }
+                
+                ctx.drawImage(mouthImage,  -(gridSize-2)/2, -(gridSize-2)/2, gridSize-2, gridSize-2);
+                ctx.restore(); 
+            } else {
+                ctx.fillStyle  = '#FF9999';
+                ctx.fillRect(segment.x  * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+            }
+        } else if (i === snake.length  - 1) {
+            // 绘制蛇尾（脚图标）
+            if (footImage.complete)  {
+                ctx.save(); 
+                ctx.translate(segment.x  * gridSize + (gridSize-2)/2, segment.y * gridSize + (gridSize-2)/2);
+                
+                // 尾巴的方向由前一个身体部分决定 
+                let prevSegment = snake[i-1];
+                let directionX = segment.x - prevSegment.x;
+                let directionY = segment.y - prevSegment.y;
+                
+                if (directionX === 1) { // 尾巴向左（蛇向右移动）
+                    ctx.rotate(Math.PI); 
+                } else if (directionX === -1) { // 尾巴向右（蛇向左移动）
+                    // 不需要旋转 
+                } else if (directionY === 1) { // 尾巴向上（蛇向下移动）
+                    ctx.rotate(-Math.PI/2); 
+                } else if (directionY === -1) { // 尾巴向下（蛇向上移动）
+                    ctx.rotate(Math.PI/2); 
+                }
+                
+                ctx.drawImage(footImage,  -(gridSize-2)/2, -(gridSize-2)/2, gridSize-2, gridSize-2);
+                ctx.restore(); 
+            } else {
+                ctx.fillStyle  = '#009900';
+                ctx.fillRect(segment.x  * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+            }
+        } else {
+            // 绘制身体部分（身体图标）
+            if (bodyImage.complete)  {
+                ctx.save(); 
+                ctx.translate(segment.x  * gridSize + (gridSize-2)/2, segment.y * gridSize + (gridSize-2)/2);
+                
+                // 身体的方向由前后两个部分决定
+                let prevSegment = snake[i-1];
+                let nextSegment = snake[i+1];
+                
+                // 计算身体段的方向（取前一段和后一段的平均方向）
+                let directionX = (prevSegment.x - nextSegment.x);
+                let directionY = (prevSegment.y - nextSegment.y);
+                
+                // 对于直行部分（前一段和后一段在同一直线上）
+                if (directionX === 0 && directionY !== 0) {
+                    // 垂直方向
+                    if (directionY > 0) { // 向下
+                        ctx.rotate(Math.PI/2); 
+                    } else { // 向上
+                        ctx.rotate(-Math.PI/2); 
+                    }
+                } else if (directionY === 0 && directionX !== 0) {
+                    // 水平方向
+                    if (directionX < 0) { // 向右 
+                        // 默认方向，不需要旋转 
+                    } else { // 向左 
+                        ctx.rotate(Math.PI); 
+                    }
+                } else {
+                    // 对于转弯部分，我们可能需要更复杂的处理 
+                    // 这里简单处理，使用前一段的方向
+                    directionX = segment.x - prevSegment.x;
+                    directionY = segment.y - prevSegment.y;
+                    
+                    if (directionX === 1) { // 向右 
+                        // 默认方向 
+                    } else if (directionX === -1) { // 向左 
+                        ctx.rotate(Math.PI); 
+                    } else if (directionY === 1) { // 向下 
+                        ctx.rotate(Math.PI/2); 
+                    } else if (directionY === -1) { // 向上 
+                        ctx.rotate(-Math.PI/2); 
+                    }
+                }
+                
+                ctx.drawImage(bodyImage,  -(gridSize-2)/2, -(gridSize-2)/2, gridSize-2, gridSize-2);
+                ctx.restore(); 
+            } else {
+                // 如果图像未加载完成，使用备用颜色
+                ctx.fillStyle  = '#00ff00';
+                let alpha = 1 - (i / snake.length)  * 0.6;
+                ctx.fillStyle  = `rgba(0, 255, 0, ${alpha})`;
+                ctx.fillRect(segment.x  * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+            }
+        }
+    }
+ 
+    // 绘制网格线（可选）
+    drawGrid();
+}
 
     // 移动蛇
     function moveSnake() {
