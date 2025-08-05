@@ -7,6 +7,13 @@ window.onload = function() {
     const startBtn = document.getElementById('start-btn');
     const pauseBtn = document.getElementById('pause-btn');
     const restartBtn = document.getElementById('restart-btn');
+    
+    // 加载图像
+    const durianImage = new Image();
+    durianImage.src = 'images/durian.svg';
+    
+    const mouthImage = new Image();
+    mouthImage.src = 'images/mouth.svg';
 
     // 游戏配置
     const gridSize = 20; // 网格大小
@@ -47,9 +54,14 @@ window.onload = function() {
         ctx.fillStyle = '#222';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // 绘制食物
-        ctx.fillStyle = 'red';
-        ctx.fillRect(foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
+        // 绘制食物（榴莲图标）
+        if (durianImage.complete) {
+            ctx.drawImage(durianImage, foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
+        } else {
+            // 如果图像未加载完成，使用备用颜色
+            ctx.fillStyle = '#8B7500';
+            ctx.fillRect(foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
+        }
         
         // 绘制蛇
         ctx.fillStyle = '#00cc00';
@@ -174,45 +186,53 @@ window.onload = function() {
             snake.pop();
         }
 
-        // 绘制食物
-        ctx.fillStyle = 'red';
-        ctx.fillRect(foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
+        // 绘制食物（榴莲图标）
+        if (durianImage.complete) {
+            ctx.drawImage(durianImage, foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
+        } else {
+            // 如果图像未加载完成，使用备用颜色
+            ctx.fillStyle = '#8B7500';
+            ctx.fillRect(foodX * gridSize, foodY * gridSize, gridSize - 2, gridSize - 2);
+        }
 
         // 绘制蛇
-        ctx.fillStyle = 'lime';
         for (let i = 0; i < snake.length; i++) {
-            // 蛇头用不同颜色
             if (i === 0) {
-                ctx.fillStyle = '#00cc00';
+                // 绘制蛇头（嘴巴图标）
+                if (mouthImage.complete) {
+                    // 保存当前状态
+                    ctx.save();
+                    // 移动到蛇头位置
+                    ctx.translate(snake[i].x * gridSize + (gridSize-2)/2, snake[i].y * gridSize + (gridSize-2)/2);
+                    
+                    // 根据移动方向旋转嘴巴
+                    if (velocityX === 1) { // 向右
+                        // 默认方向，不需要旋转
+                    } else if (velocityX === -1) { // 向左
+                        ctx.rotate(Math.PI); // 旋转180度
+                    } else if (velocityY === -1) { // 向上
+                        ctx.rotate(-Math.PI/2); // 旋转-90度
+                    } else if (velocityY === 1) { // 向下
+                        ctx.rotate(Math.PI/2); // 旋转90度
+                    }
+                    
+                    // 绘制嘴巴图标
+                    ctx.drawImage(mouthImage, -(gridSize-2)/2, -(gridSize-2)/2, gridSize-2, gridSize-2);
+                    
+                    // 恢复状态
+                    ctx.restore();
+                } else {
+                    // 如果图像未加载完成，使用备用颜色
+                    ctx.fillStyle = '#FF9999';
+                    ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
+                }
             } else {
+                // 蛇身体部分
                 ctx.fillStyle = '#00ff00';
                 // 渐变色效果
                 let alpha = 1 - (i / snake.length) * 0.6;
                 ctx.fillStyle = `rgba(0, 255, 0, ${alpha})`;
-            }
-            
-            ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
-            
-            // 绘制蛇眼睛（只在蛇头上）
-            if (i === 0) {
-                ctx.fillStyle = 'black';
-                // 根据移动方向确定眼睛位置
-                if (velocityX === 1) { // 向右
-                    ctx.fillRect((snake[i].x * gridSize) + 12, (snake[i].y * gridSize) + 4, 4, 4);
-                    ctx.fillRect((snake[i].x * gridSize) + 12, (snake[i].y * gridSize) + 12, 4, 4);
-                } else if (velocityX === -1) { // 向左
-                    ctx.fillRect((snake[i].x * gridSize) + 4, (snake[i].y * gridSize) + 4, 4, 4);
-                    ctx.fillRect((snake[i].x * gridSize) + 4, (snake[i].y * gridSize) + 12, 4, 4);
-                } else if (velocityY === -1) { // 向上
-                    ctx.fillRect((snake[i].x * gridSize) + 4, (snake[i].y * gridSize) + 4, 4, 4);
-                    ctx.fillRect((snake[i].x * gridSize) + 12, (snake[i].y * gridSize) + 4, 4, 4);
-                } else if (velocityY === 1) { // 向下
-                    ctx.fillRect((snake[i].x * gridSize) + 4, (snake[i].y * gridSize) + 12, 4, 4);
-                    ctx.fillRect((snake[i].x * gridSize) + 12, (snake[i].y * gridSize) + 12, 4, 4);
-                } else { // 默认（游戏开始时）
-                    ctx.fillRect((snake[i].x * gridSize) + 12, (snake[i].y * gridSize) + 4, 4, 4);
-                    ctx.fillRect((snake[i].x * gridSize) + 12, (snake[i].y * gridSize) + 12, 4, 4);
-                }
+                ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
             }
         }
 
