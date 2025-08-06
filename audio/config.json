@@ -1,0 +1,17 @@
+{
+  "backgroundMusic": {
+    "default": "audio/background/default.wav",
+    "retro": "audio/background/default.wav",
+    "ambient": "audio/background/default.wav"
+  },
+  "soundEffects": {
+    "eat": "audio/effects/eat.mp3",
+    "death": "audio/effects/death.mp3",
+    "celebration": "audio/effects/celebration.mp3"
+  },
+  "settings": {
+    "backgroundVolume": 0.3,
+    "effectsVolume": 0.5,
+    "defaultBackgroundTheme": "default"
+  }
+}

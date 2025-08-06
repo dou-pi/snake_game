@@ -15,6 +15,31 @@
                 <span id="score">0</span>
             </div>
         </div>
+        
+        <!-- 添加主题选择器 -->
+        <div class="theme-selector">
+            <label for="background-theme">背景主题:</label>
+            <select id="background-theme">
+                <option value="grass">草地</option>
+                <option value="dark">暗夜</option>
+                <option value="ocean">海洋</option>
+                <option value="desert">沙漠</option>
+                <option value="classic">经典</option>
+            </select>
+        </div>
+        
+        <!-- 添加音频主题选择器 -->
+        <div class="audio-selector">
+            <label for="audio-theme">音乐主题:</label>
+            <select id="audio-theme">
+                <option value="default">默认</option>
+                <option value="retro">复古</option>
+                <option value="ambient">环境音</option>
+            </select>
+            <label for="volume-control">音量:</label>
+            <input type="range" id="volume-control" min="0" max="100" value="50">
+        </div>
+        
         <canvas id="game-canvas" width="400" height="400"></canvas>
         <div class="controls">
             <button id="start-btn">开始游戏</button>
@@ -24,8 +49,11 @@
         <div class="instructions">
             <h2>游戏说明</h2>
             <p>使用键盘方向键 ↑ ↓ ← → 控制蛇的移动方向</p>
-            <p>吃到榴莲（食物图标）可以增加分数和蛇的长度</p>
+            <p>吃到食物可以增加分数和蛇的长度</p>
             <p>蛇可以穿越边界，从另一侧出现</p>
+            <p>🔇 按 M 键可以切换静音</p>
+            <p>🎉 每得100分会有欢呼音效</p>
+            <p>⏸️ 按空格键可以暂停/继续游戏</p>
             <p>撞到自己的身体游戏结束</p>
         </div>
     </div>

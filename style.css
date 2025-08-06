@@ -5,8 +5,10 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
+      font-family: 'Arial', sans-serif;
+    background: #f0f0f0; /* 简单的灰色背景 */
+    /* 或者使用纯白色背景: background: #ffffff; */
+    /* 或者使用纯黑色背景: background: #000000; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,13 +16,28 @@ body {
     padding: 20px;
 }
 
+/* @keyframes grassWave {
+
+    0%,
+    100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 20px 20px;
+    }
+} */
+
 .game-container {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 500px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 248, 255, 0.95) 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.3);
+    padding: 30px;
+    max-width: 90vw;
     width: 100%;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(76, 175, 80, 0.3);
+    position: relative;
 }
 
 .game-header {
@@ -28,94 +45,445 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .game-header h1 {
-    font-size: 24px;
-    color: #333;
+    font-size: clamp(20px, 4vw, 28px);
+    color: #2E7D32;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
 }
 
 .score-container {
-    font-size: 18px;
+    font-size: clamp(16px, 3vw, 20px);
     font-weight: bold;
-    color: #333;
+    color: #2E7D32;
+    background: linear-gradient(45deg, #4CAF50, #66BB6A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 #game-canvas {
-    background-color: #222;
+    background: linear-gradient(45deg, #1B5E20 25%, #2E7D32 25%, #2E7D32 50%, #1B5E20 50%, #1B5E20 75%, #2E7D32 75%, #2E7D32);
+    background-size: 20px 20px;
     display: block;
     margin: 0 auto;
-    border-radius: 5px;
+    border-radius: 15px;
+    border: 3px solid #4CAF50;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 100%;
+    height: auto;
 }
 
 .controls {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 15px;
+    margin-top: 25px;
+    flex-wrap: wrap;
 }
 
 button {
-    background-color: #4CAF50;
+    background: linear-gradient(45deg, #4CAF50, #66BB6A);
     color: white;
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 12px 20px;
+    border-radius: 25px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    font-size: clamp(14px, 2.5vw, 16px);
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 100px;
 }
 
 button:hover {
-    background-color: #45a049;
+    background: linear-gradient(45deg, #45a049, #5cb85c);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
 }
 
 #pause-btn {
-    background-color: #2196F3;
+    background: linear-gradient(45deg, #2196F3, #42A5F5);
 }
 
 #pause-btn:hover {
-    background-color: #0b7dda;
+    background: linear-gradient(45deg, #0b7dda, #1976D2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
 }
 
 #restart-btn {
-    background-color: #f44336;
+    background: linear-gradient(45deg, #f44336, #EF5350);
 }
 
 #restart-btn:hover {
-    background-color: #d32f2f;
+    background: linear-gradient(45deg, #d32f2f, #C62828);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
 }
 
 .instructions {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
+    margin-top: 25px;
+    padding: 20px;
+    border-top: 2px solid rgba(76, 175, 80, 0.3);
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(102, 187, 106, 0.1));
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
 }
 
 .instructions h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #333;
+    font-size: clamp(16px, 3vw, 20px);
+    margin-bottom: 15px;
+    color: #2E7D32;
+    font-weight: bold;
+    text-align: center;
 }
 
 .instructions p {
-    margin-bottom: 8px;
-    color: #666;
-    font-size: 14px;
+    margin-bottom: 10px;
+    color: #2E7D32;
+    font-size: clamp(13px, 2.5vw, 15px);
+    line-height: 1.6;
+    padding: 5px 0;
+    border-left: 3px solid #4CAF50;
+    padding-left: 15px;
+    margin-left: 10px;
 }
 
-@media (max-width: 500px) {
-    #game-canvas {
-        width: 100%;
-        height: auto;
+/* 平板设备 */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
     }
-    
+
+    .game-container {
+        padding: 20px;
+        max-width: 95vw;
+    }
+
+    .game-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .controls {
+        gap: 10px;
+    }
+
+    button {
+        padding: 10px 16px;
+        min-width: 80px;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .game-container {
+        padding: 15px;
+        max-width: 98vw;
+    }
+
     .controls {
         flex-direction: column;
         align-items: center;
+        gap: 8px;
     }
-    
+
     button {
         width: 100%;
+        max-width: 200px;
+        padding: 12px;
+    }
+
+    .instructions {
+        padding: 15px;
+    }
+
+    .instructions p {
+        margin-left: 5px;
+        padding-left: 10px;
+    }
+}
+
+/* 超小屏幕 */
+@media (max-width: 320px) {
+    .game-container {
+        padding: 10px;
+    }
+
+    .instructions {
+        padding: 10px;
+    }
+}
+
+/* 大屏幕优化 */
+@media (min-width: 1200px) {
+    .game-container {
+        max-width: 600px;
+    }
+}
+
+/* 横屏手机优化 */
+@media (max-height: 500px) and (orientation: landscape) {
+    body {
+        padding: 5px;
+    }
+
+    .game-container {
+        padding: 10px;
+    }
+
+    .game-header {
+        margin-bottom: 10px;
+    }
+
+    .controls {
+        margin-top: 10px;
+    }
+
+    .instructions {
+        margin-top: 10px;
+        padding: 10px;
+    }
+}
+
+/* 全屏游戏模式 */
+.game-mode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.game-mode .game-container {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0;
+    max-width: none;
+    width: auto;
+    height: auto;
+}
+
+.game-mode .game-header,
+.game-mode .controls,
+.game-mode .instructions {
+    display: none;
+}
+
+.game-mode #game-canvas {
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+/* 退出全屏按钮 */
+.exit-fullscreen {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(244, 67, 54, 0.8);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.exit-fullscreen:hover {
+    background: rgba(244, 67, 54, 1);
+    transform: scale(1.05);
+}
+
+/* 游戏信息显示 */
+.game-info {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
+
+/* 移动端全屏优化 */
+@media (max-width: 768px) {
+    .game-mode #game-canvas {
+        max-width: 95vw;
+        max-height: 85vh;
+    }
+
+    .exit-fullscreen {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .game-info {
+        top: 10px;
+        left: 10px;
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+}
+
+/* 在现有样式中添加主题选择器样式 */
+.theme-selector {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.theme-selector label {
+    color: #2c5530;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.theme-selector select {
+    padding: 5px 10px;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    background-color: white;
+    color: #2c5530;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-selector select:hover {
+    background-color: #f0f8f0;
+    border-color: #45a049;
+}
+
+.theme-selector select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .theme-selector {
+        margin: 8px 0;
+    }
+    
+    .theme-selector label {
+        display: block;
+        margin-bottom: 5px;
+        margin-right: 0;
+    }
+    
+    .theme-selector select {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+/* 添加音频选择器样式 */
+.audio-selector {
+    margin: 10px 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.audio-selector label {
+    color: #2c5530;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.audio-selector select {
+    padding: 5px 10px;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    background-color: white;
+    color: #2c5530;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.audio-selector select:hover {
+    background-color: #f0f8f0;
+    border-color: #45a049;
+}
+
+.audio-selector input[type="range"] {
+    width: 100px;
+    height: 5px;
+    border-radius: 5px;
+    background: #ddd;
+    outline: none;
+    cursor: pointer;
+}
+
+.audio-selector input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.audio-selector input[type="range"]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    border: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .audio-selector {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .audio-selector select {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .audio-selector input[type="range"] {
+        width: 150px;
     }
 }
